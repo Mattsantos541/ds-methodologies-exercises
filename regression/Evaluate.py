@@ -43,7 +43,7 @@ y= bill['tip']
 x= pd.DataFrame(x)
 y= pd.DataFrame(y)
 bill.head(3)
-
+type(y)
 len(x)
 len(y)
 type(x)
@@ -72,3 +72,4 @@ bill.head()
 ##Write a function, plot_residuals(x, y, dataframe) that takes the feature, the target, 
 # and the dataframe as input and returns a residual plot. (hint: seaborn has an easy way to do this!)
 
+bill['residual'] = bill['yhat'] - bill['y']

@@ -21,7 +21,7 @@ pip install viz
 #warnings.filterwarnings('ignore')
 
 import viz
-from viz import evaluation_example1, evaluation_example2, evaluation_example3, evaluation_example4, evaluation_example5
+#from viz import evaluation_example1, evaluation_example2, evaluation_example3, evaluation_example4, evaluation_example5
 
 
 #Load the tips dataset from either pydataset or seaborn.
@@ -37,7 +37,7 @@ bill.head()
 bill= pd.DataFrame(bill)
 bill
 
-x= bill['total_bill'])
+x= bill['total_bill']
 y= bill['tip']
 
 x= pd.DataFrame(x)
@@ -52,7 +52,7 @@ from statsmodels.formula.api import ols
 
 ols_model = ols('y ~ x', data=bill).fit()
 
-bill['yhat'] = ols_model.predict(x)
+bill['yhat'] = ols_model.predict(data.x)
 
 
 #fit the model to your data, where x = total_bill and y = tip: 
@@ -72,4 +72,18 @@ bill.head()
 ##Write a function, plot_residuals(x, y, dataframe) that takes the feature, the target, 
 # and the dataframe as input and returns a residual plot. (hint: seaborn has an easy way to do this!)
 
-bill['residual'] = bill['yhat'] - bill['y']
+def resideual(bill):
+    bill['residual'] = bill['yhat'] - bill['y']
+    sns.residplot('total_bill')
+
+
+#Write a function, regression_errors(y, yhat), that takes in y and yhat, returns the sum of squared 
+#errors (SSE), explained sum of squares (ESS), total sum of squares (TSS), mean squared error (MSE) and root mean squared error (RMSE).
+
+
+#Write a function, baseline_mean_errors(y), that takes in your target, y, computes the SSE, MSE & RMSE when yhat is equal to the mean of all y, and returns the error values (SSE, MSE, and RMSE).
+
+
+#Write a function, better_than_baseline(SSE), that returns true if your model performs better than the baseline, otherwise false.
+
+#Write a function, model_significance(ols_model), that takes the ols model as input and returns the amount of variance explained in your model, and the value telling you whether the correlation between the model and the tip value are statistically significant.

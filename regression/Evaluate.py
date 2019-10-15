@@ -79,11 +79,26 @@ def resideual(bill):
 
 #Write a function, regression_errors(y, yhat), that takes in y and yhat, returns the sum of squared 
 #errors (SSE), explained sum of squares (ESS), total sum of squares (TSS), mean squared error (MSE) and root mean squared error (RMSE).
-
+def regression_errors(y, yhat):
+    sse = ((y-yhat)**2).sum()
+    ess = ((yhat-y.mean())**2).sum()
+    tss = sse + ess
+    mse = mean_squared_error(y, yhat)
+    rmse = mse ** (1/2)
+    return sse, ess, tss, mse, rmse
 
 #Write a function, baseline_mean_errors(y), that takes in your target, y, computes the SSE, MSE & RMSE when yhat is equal to the mean of all y, and returns the error values (SSE, MSE, and RMSE).
-
+def baseline_mean_errors(y):
+    yhat = y.mean()
+    sse = ((y-yhat)**2).sum()
+    mse = mean_squared_error(y, yhat)
+    rmse = mse ** (1/2)
+    return sse, mse, rmse
 
 #Write a function, better_than_baseline(SSE), that returns true if your model performs better than the baseline, otherwise false.
-
+def better_than_baseline(sse, sse_baseline):
+    return sse > sse_baseline
 #Write a function, model_significance(ols_model), that takes the ols model as input and returns the amount of variance explained in your model, and the value telling you whether the correlation between the model and the tip value are statistically significant.
+
+def model_significance(ols_model):
+    return ols_model.rsquared, ols_model.f_pvalue

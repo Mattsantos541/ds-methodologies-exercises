@@ -38,3 +38,19 @@ from sklearn.linear_model import LassoCV
 reg = LassoCV()
 reg.fit(X_train, y_train)
 #Write 3 functions, the first computes the number of optimum features (n) using rfe, the second takes n as input and returns the top n features, and the third takes the list of the top n features as input and returns a new X_train and X_test dataframe with those top features , recursive_feature_elimination() that computes the optimum number of features (n) and returns the top n features.
+
+from sklearn.linear_model import LinearRegression
+from sklearn.feature_selection import RFE
+
+def optimum_features(n):
+    model = LinearRegression
+    rfe = RFE(model, 3)
+    x_rfe = rfe.fit_transform(x_train, y_train)
+    model.fit(x_rfe, y_train)
+    return x_rfe.ranking_, rfe.support_
+
+
+def top_features(n):
+
+
+def list_ top_features()

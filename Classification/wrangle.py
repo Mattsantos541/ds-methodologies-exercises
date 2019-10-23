@@ -1,3 +1,4 @@
+import env
 from env import host, user, password
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -8,73 +9,50 @@ url = f'mysql+pymysql://{user}:{password}@{host}/iris_db'
 def get_db_url(db):
     return f'mysql+pymysql://{env.user}:{env.password}@{env.host}/{db}'
 
+
+
+
 def wrangle_iris():
-    df= pd.read_sql("""SELECT * FROM measurements m JOIN species s on s.species_id = m.species_id;"""
-    ,url)
-    
+    df = pd.read_sql("""
+SELECT *
+FROM measurements m
+JOIN species s on s.species_id = m.species_id;
+"""
+,url)
+
     return df
+
+
+def excel_reader():
+    df_excel = pd.read_excel('Excel_Exercises.xlsx',sheet_name='Table1_CustDetails')
+    df_excel_sample = pd.read_excel('Excel_Exercises.xlsx',sheet_name='Table1_CustDetails',nrows=100)
+    print(df_excel.columns[0:5])
+    print(df_excel.dtypes[df_excel.dtypes == object])
+    print(df_excel.describe().loc[['min','max']])
+    return df_excel, df_excel_sample
+
+
+def google_sheet():
+    google_sheet = "https://docs.google.com/spreadsheets/d/1Uhtml8KY19LILuZsrDtlsHHDC9wuDGUSe8LTEwvdI5g/edit#gid=341089357"
+    google_sheet = google_sheet.replace("edit#gid","export?format=csv&gid")
+    df_google = pd.read_csv(google_sheet)
+    print(df_google.iloc[0:3])
+    print(df_google.columns)
+    print(df_google.dtypes)
+    print(df_google.describe(include =[np.number]))
+    unique_categories = df_google[['Survived','Pclass','Sex','SibSp','Embarked']]
+    unique_categories = [unique_categories[i].unique().tolist() for i in unique_categories.columns]
+    print(unique_categories)
+    return df_google, unique_categories
+
+
+
+
+def wrangle_titanic():
     
-    
-
-
-import pandas as pd
-from env import host, user, password
-
-def get_db_url(username, hostname, password, db_name):
-    return f'mysql+pymysql://{username}:{password}@{hostname}/{db_name}'
-
-
-
-
-
-
-
-def plot_residuals(x, y):
-    '''
-    Plots the residuals of a model that uses x to predict y. Note that we don't
-    need to make any predictions ourselves here, seaborn will create the model
-    and predictions for us under the hood with the `residplot` function.
-    '''
-    return sns.residplot(x, y)
-
-
-#split Scale
-def split_my_data(data, train_ratio=.80, seed=123):
-    '''the function will take a dataframe and returns train and test dataframe split 
-    where 80% is in train, and 20% in test. '''
-    return train_test_split(data, train_size = train_ratio, random_state = seed)
-
-
-def standard_scaler(train, test):
-    scaler = StandardScaler(copy=True, with_mean=True, with_std=True).fit(train)
-    train_scaled = pd.DataFrame(scaler.transform(train), columns=train.columns.values).set_index([train.index.values])
-    test_scaled = pd.DataFrame(scaler.transform(test), columns=test.columns.values).set_index([test.index.values])
-    return scaler, train_scaled, test_scaled
-
-
-def uniform_scaler(train, test, seed=123):
-    scaler = QuantileTransformer(n_quantiles=100, output_distribution='uniform', random_state=seed, copy=True).fit(train)
-    train_scaled = pd.DataFrame(scaler.transform(train), columns=train.columns.values).set_index([train.index.values])
-    test_scaled = pd.DataFrame(scaler.transform(test), columns=test.columns.values).set_index([test.index.values])
-    return scaler, train_scaled, test_scaled
-
-##Visual
-def evaluation_example1(df, x, y):
-    plt.figure(figsize=(8, 5))
-    plt.scatter(x, y, color='dimgray')
-
-
-
-def plot_regression(x,y):
-    res = sm.OLS(y, x).fit()
-    prstd, iv_l, iv_u = wls_prediction_std(res)
-
-    fig, ax = plt.subplots(figsize=(8,6))
-
-    ax.plot(x, y, 'o', label="data")
-    #ax.plot(x, y, 'b-', label="True")
-    ax.plot(x, res.fittedvalues, 'r--.', label="OLS")
-    ax.plot(x, iv_u, 'g--',label='97.5% Confidence Level')
-    ax.plot(x, iv_l, 'b--',label='2.5% Confidence Level')
-    ax.legend(loc='best');
-    plt.show()
+    df = pd.read_sql("""
+SELECT *
+FROM passengers
+"""
+,url2)
+    return df

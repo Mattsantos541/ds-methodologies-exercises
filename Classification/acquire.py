@@ -14,7 +14,7 @@ train = 'https://docs.google.com/spreadsheets/d/1Uhtml8KY19LILuZsrDtlsHHDC9wuDGU
 
 
 def prep_titanic():
-    df = acquire.get_titanic_data()
+    df = get_titanic_data()
     df.embark_town.fillna('Other', inplace=True)
     df.embarked.fillna('Unknown', inplace=True)
     df.drop(columns=['deck'], inplace=True)
@@ -41,10 +41,8 @@ def prep_iris():
     return df_iris
 
 #1)Use the function defined in `aquire.py` to load the iris data.
-from aquire import get_iris_data
-from aquire import get_titanic_data
-from sklearn.preprocessing import LabelEncoder
-from sklearn.preprocessing import MinMaxScaler 
+
+
 iris_df=get_iris_data()
 #1a) Drop the `species_id` and `measurement_id` columns.
 def drop_columns(df):

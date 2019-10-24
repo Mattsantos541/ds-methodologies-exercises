@@ -19,13 +19,22 @@ FROM measurements m
 JOIN species s on s.species_id = m.species_id;
 """
 ,url)
+    print(df.head(3))
+    
+    print(df.shape)
+    
+    print(df.columns)
+    
+    print(df.dtypes)
+    
+    print(df.describe())
 
     return df
 
 
 def excel_reader():
-    df_excel = pd.read_excel('Excel_Exercises.xlsx',sheet_name='Table1_CustDetails')
-    df_excel_sample = pd.read_excel('Excel_Exercises.xlsx',sheet_name='Table1_CustDetails',nrows=100)
+    df_excel = pd.read_excel('Matt Santos - Excel_Exercises.xlsx',sheet_name='Table1_CustDetails')
+    df_excel_sample = pd.read_excel('Matt Santos - Excel_Exercises.xlsx',sheet_name='Table1_CustDetails',nrows=100)
     print(df_excel.columns[0:5])
     print(df_excel.dtypes[df_excel.dtypes == object])
     print(df_excel.describe().loc[['min','max']])

@@ -2,7 +2,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 
 #USE df.unique()<5 instead of this temp list
-def pick_viable_categories(df):
+def sort(df):
     discretes = df.select_dtypes(include=['object','int64'])
     temp = []
     for column in discretes:
@@ -11,14 +11,14 @@ def pick_viable_categories(df):
             temp.append(columnSeriesObj.name)
     return temp
 
-def plot_viable_categories(target, df):
+'''def plot_viable_categories(target, df):
     x = pick_viable_categories(df)
     _, ax = plt.subplots(nrows=1, ncols=len(x), figsize=(16,5))
     average_rate = df.target.mean()
     for i, feature in enumerate(x):
         sns.barplot(feature, target, data=df, ax=ax[i], alpha=.5)
         ax[i].set_ylabel('average_rate')
-        ax[i].axhline(average_rate, ls='--', color='grey')
+        ax[i].axhline(average_rate, ls='--', color='grey')'''
 
 def barplot(df, features):
     ax = plt.subplots(nrows=1, ncols=3, figsize=(16,5))

@@ -10,7 +10,7 @@ def get_db_url(db):
     return f'mysql+pymysql://{env.user}:{env.password}@{env.host}/{db}'
 
 
-
+url =get_db_url('iris_db')
 
 def wrangle_iris():
     df = pd.read_sql("""

@@ -8,11 +8,16 @@ def get_connection(db, user=env.user, host=env.host, password=env.password):
 
 def get_zillow_data():
     query = '''
-    SELECT p2.*, p1.logerror FROM predictions_2016 p1
-        LEFT JOIN properties_2016 p2  USING(parcelid)
-        WHERE (bedroomcnt > 0 AND bathroomcnt > 0 AND calculatedfinishedsquarefeet > 500 
-            AND latitude IS NOT NULL AND longitude IS NOT NULL) 
-            AND (unitcnt = 1 OR unitcnt IS NULL);
+    select p_17.parcelid, logerror, transactiondate, p.*
+    from predictions_2017 p_17
+    join 
+        (select
+        parcelid, Max(transactiondate) as tdate
+        from predictions_2017
+        group By parcelid )as sq1
+    on (sq1.parcelid=p_17.parcelid and sq1.tdate = p_17.transactiondate )
+    join properties_2017 p on p_17.parcelid=p.parcelid
+    where (p.latitude is not null and p.longitude is not null);
     '''
     return pd.read_sql(query, get_connection('zillow'))
 

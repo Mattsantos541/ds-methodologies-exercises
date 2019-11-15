@@ -1,12 +1,10 @@
+from os import path
+
 import requests
 import pandas as pd
 
-response = requests.get('https://example.com')
-
-
 BASE_URL = 'https://python.zach.lol'
 API_BASE = BASE_URL + '/api/v1'
-
 
 def get_store_data_from_api():
     url = API_BASE + '/stores'
@@ -28,6 +26,7 @@ def get_item_data_from_api():
         data = response.json()
         stores += data['payload']['items']
 
+    return pd.DataFrame(stores)
 
 def get_sale_data_from_api():
     url = API_BASE + '/sales'
@@ -65,6 +64,15 @@ def get_sale_data(use_cache=True):
     df = get_sale_data_from_api()
     df.to_csv('sales.csv', index=False)
     return df
+
+def get_all_data():
+    sales = get_sale_data()
+    items = get_item_data()
+    stores = get_store_data()
+
+    sales = sales.rename(columns={'item': 'item_id', 'store': 'store_id'})
+
+    return sales.merge(items, on='item_id').merge(stores, on='store_id')
 
 def get_opsd_data(use_cache=True):
     if use_cache and path.exists('opsd.csv'):

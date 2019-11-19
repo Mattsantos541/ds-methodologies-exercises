@@ -51,7 +51,7 @@ def prep_store_data(df: pd.DataFrame) -> pd.DataFrame:
             .groupby(['ds'])['y'].sum().reset_index().set_index('ds'))
 
 
-def plot_and_eval(target_vars, train = train, test = test, metric_fmt = '{:.2f}', linewidth = 4):
+'''def plot_and_eval(target_vars, train = train, test = test, metric_fmt = '{:.2f}', linewidth = 4):
     if type(target_vars) is not list:
         target_vars = [target_vars]
 
@@ -64,4 +64,4 @@ def plot_and_eval(target_vars, train = train, test = test, metric_fmt = '{:.2f}'
         plt.plot(yhat[var], linewidth=linewidth)
         print(f'{var} -- MSE: {metric_fmt} RMSE: {metric_fmt}'.format(mse, rmse))
 
-    plt.show()
+    plt.show()'''
